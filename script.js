@@ -246,8 +246,6 @@ function displayCredlyBadges(badges) {
                         <div class="credly-meta">
                             <span class="credly-year">${badge.year}</span>
                             ${badge.verified ? '<span class="credly-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
-                            ${badge.expires ? `<span class="credly-expires">Expires ${badge.expires}</span>` : ''}
-                            ${badge.issued ? `<span class="credly-issued">Issued ${badge.issued}</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -395,6 +393,21 @@ function animateCounters() {
             if (entry.isIntersecting) {
                 const target = entry.target;
                 const targetValue = target.textContent;
+                
+                // Skip animation for text-based stats like "Multi-Million"
+                if (targetValue.includes('Multi-Million') || isNaN(parseFloat(targetValue))) {
+                    // Just add a fade-in effect for non-numeric stats
+                    target.style.opacity = '0';
+                    target.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        target.style.transition = 'all 0.6s ease';
+                        target.style.opacity = '1';
+                        target.style.transform = 'translateY(0)';
+                    }, 100);
+                    observer.unobserve(target);
+                    return;
+                }
+                
                 const isMonetary = targetValue.includes('$');
                 const numericValue = parseFloat(targetValue.replace(/[$M+]/g, ''));
 
