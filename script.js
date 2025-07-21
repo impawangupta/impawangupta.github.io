@@ -117,29 +117,107 @@ async function fetchCredlyBadges() {
     try {
         const username = 'impawangupta';
         
-        // Since Credly doesn't have a public API for fetching badges without auth,
-        // we'll create a placeholder structure and encourage users to visit the actual profile
+        // Using local badge images from your actual Credly profile
         const credlyBadges = [
             {
+                name: "KCSA: Kubernetes and Cloud Native Security Associate",
+                issuer: "The Linux Foundation",
+                year: "2025",
+                category: "kubernetes",
+                verified: true,
+                image: "assets/badges/kcsa.png",
+                expires: "Mar 24, 2027"
+            },
+            {
                 name: "Kubestronaut",
-                issuer: "Cloud Native Computing Foundation",
+                issuer: "The Linux Foundation",
                 year: "2025",
                 category: "kubernetes",
-                verified: true
+                verified: true,
+                image: "assets/badges/kubestronaut.png",
+                issued: "Mar 23, 2025"
             },
             {
-                name: "Certified Kubernetes Security Specialist (CKS)",
-                issuer: "Cloud Native Computing Foundation", 
+                name: "CKS: Certified Kubernetes Security Specialist",
+                issuer: "The Linux Foundation",
                 year: "2025",
                 category: "kubernetes",
-                verified: true
+                verified: true,
+                image: "assets/badges/cks.png",
+                expires: "Mar 3, 2027"
             },
             {
-                name: "AWS Solutions Architect Professional",
+                name: "KCNA: Kubernetes and Cloud Native Associate",
+                issuer: "The Linux Foundation",
+                year: "2025",
+                category: "kubernetes",
+                verified: true,
+                image: "assets/badges/kcna.png",
+                expires: "Jan 5, 2027"
+            },
+            {
+                name: "CKAD: Certified Kubernetes Application Developer",
+                issuer: "The Linux Foundation",
+                year: "2021",
+                category: "kubernetes",
+                verified: true,
+                image: "assets/badges/ckad.png"
+            },
+            {
+                name: "CKA: Certified Kubernetes Administrator",
+                issuer: "The Linux Foundation",
+                year: "2021",
+                category: "kubernetes",
+                verified: true,
+                image: "assets/badges/cka.png"
+            },
+            {
+                name: "AWS Certified Solutions Architect - Professional",
                 issuer: "Amazon Web Services",
                 year: "2019",
                 category: "aws",
-                verified: true
+                verified: true,
+                image: "assets/badges/aws-solutions-architect-professional.png"
+            },
+            {
+                name: "AWS Certified Solutions Architect - Associate",
+                issuer: "Amazon Web Services",
+                year: "2019",
+                category: "aws",
+                verified: true,
+                image: "assets/badges/aws-solutions-architect-associate.png"
+            },
+            {
+                name: "AWS Certified SysOps Administrator - Associate",
+                issuer: "Amazon Web Services",
+                year: "2019",
+                category: "aws",
+                verified: true,
+                image: "assets/badges/aws-sysops-administrator.png"
+            },
+            {
+                name: "AWS Certified Developer - Associate",
+                issuer: "Amazon Web Services",
+                year: "2019",
+                category: "aws",
+                verified: true,
+                image: "assets/badges/aws-developer-associate.png"
+            },
+            {
+                name: "Google Cloud Associate Cloud Engineer",
+                issuer: "Google Cloud",
+                year: "2021",
+                category: "gcp",
+                verified: true,
+                image: "assets/badges/gcp-associate-cloud-engineer.png"
+            },
+            {
+                name: "Sun Certified Java Programmer",
+                issuer: "Oracle",
+                year: "2005",
+                category: "java",
+                verified: true,
+                image: "assets/badges/java-certification.png"
             }
         ];
 
@@ -159,22 +237,35 @@ function displayCredlyBadges(badges) {
         <div class="credly-badges-grid">
             ${badges.map(badge => `
                 <div class="credly-badge" data-category="${badge.category}">
-                    <div class="credly-badge-icon">
-                        <i class="fas fa-award"></i>
+                    <div class="credly-badge-image">
+                        <img src="${badge.image}" alt="${badge.name}" loading="lazy">
                     </div>
                     <div class="credly-badge-content">
                         <h4>${badge.name}</h4>
                         <p class="credly-issuer">${badge.issuer}</p>
-                        <span class="credly-year">${badge.year}</span>
-                        ${badge.verified ? '<span class="credly-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                        <div class="credly-meta">
+                            <span class="credly-year">${badge.year}</span>
+                            ${badge.verified ? '<span class="credly-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                            ${badge.expires ? `<span class="credly-expires">Expires ${badge.expires}</span>` : ''}
+                            ${badge.issued ? `<span class="credly-issued">Issued ${badge.issued}</span>` : ''}
+                        </div>
                     </div>
                 </div>
             `).join('')}
         </div>
         <div class="credly-disclaimer">
-            <p><i class="fas fa-info-circle"></i> For the complete list of verified badges with images and details, visit my <a href="https://www.credly.com/users/impawangupta/badges" target="_blank">Credly profile</a></p>
+            <p><i class="fas fa-info-circle"></i> All badges are verified on Credly. Click on any badge or visit my complete <a href="https://www.credly.com/users/impawangupta/badges" target="_blank">Credly profile</a> for verification</p>
         </div>
     `;
+
+    // Add click handlers to badges to open them on Credly
+    const badgeElements = credlyContainer.querySelectorAll('.credly-badge');
+    badgeElements.forEach(badgeEl => {
+        badgeEl.style.cursor = 'pointer';
+        badgeEl.addEventListener('click', () => {
+            window.open('https://www.credly.com/users/impawangupta/badges', '_blank');
+        });
+    });
 }
 
 function displayCredlyError() {
