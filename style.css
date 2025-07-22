@@ -58,9 +58,10 @@ p {
 
 /* Container */
 .container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
+    width: 100%;
 }
 
 /* Navigation */
@@ -81,12 +82,13 @@ p {
 }
 
 .nav-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem;
+    width: 100%;
 }
 
 .nav-logo span {
@@ -154,13 +156,14 @@ p {
 }
 
 .hero-content {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 2rem;
     z-index: 2;
     display: flex;
     align-items: center;
     gap: 3rem;
+    width: 100%;
 }
 
 .hero-profile {
@@ -897,8 +900,9 @@ p {
     grid-template-columns: 1fr auto;
     gap: 4rem;
     align-items: center;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .contact-info h3 {
@@ -964,6 +968,10 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .footer-content {
@@ -1041,6 +1049,34 @@ p {
 .slide-in-right.visible {
     opacity: 1;
     transform: translateX(0);
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1600px) {
+    .container, .nav-container, .hero-content, .footer .container {
+        max-width: 1600px;
+    }
+    
+    .hero-content {
+        gap: 4rem;
+    }
+    
+    .hero-image {
+        width: 250px;
+        height: 250px;
+    }
+    
+    .contact-content {
+        max-width: 1200px;
+    }
+    
+    .credly-badges-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    }
 }
 
 /* Responsive Design */
