@@ -1185,10 +1185,15 @@ p {
         font-size: 0.9rem;
     }
 
+    .hero {
+        padding-top: 8rem;
+    }
+
     .hero-content {
         flex-direction: column;
         text-align: center;
         gap: 2rem;
+        padding-top: 2rem;
     }
 
     .hero-image {
