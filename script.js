@@ -116,7 +116,7 @@ function setupScrollAnimations() {
 async function fetchCredlyBadges() {
     try {
         const username = 'impawangupta';
-        
+
         // Using local badge images from your actual Credly profile
         const credlyBadges = [
             {
@@ -204,6 +204,14 @@ async function fetchCredlyBadges() {
                 image: "assets/badges/aws-developer-associate.png"
             },
             {
+                name: "AWS Certified Cloud Practitioner",
+                issuer: "Amazon Web Services",
+                year: "2019",
+                category: "aws",
+                verified: true,
+                image: "assets/badges/aws-cloud-practitioner.png"
+            },
+            {
                 name: "Google Cloud Associate Cloud Engineer",
                 issuer: "Google Cloud",
                 year: "2021",
@@ -217,7 +225,7 @@ async function fetchCredlyBadges() {
                 year: "2005",
                 category: "java",
                 verified: true,
-                image: "assets/badges/java-certification.png"
+                image: "assets/badges/java-certification.jpg"
             }
         ];
 
@@ -230,26 +238,52 @@ async function fetchCredlyBadges() {
 
 function displayCredlyBadges(badges) {
     const credlyContainer = document.getElementById('credly-badges');
-    
+
     if (!credlyContainer) return;
 
+    // Group badges by category
+    const groupedBadges = {
+        kubernetes: badges.filter(b => b.category === 'kubernetes'),
+        aws: badges.filter(b => b.category === 'aws'),
+        gcp: badges.filter(b => b.category === 'gcp'),
+        java: badges.filter(b => b.category === 'java')
+    };
+
+    const categoryConfig = {
+        kubernetes: { title: 'Kubernetes Mastery', icon: 'fas fa-dharmachakra' },
+        aws: { title: 'AWS Expertise', icon: 'fab fa-aws' },
+        gcp: { title: 'Google Cloud Platform', icon: 'fab fa-google' },
+        java: { title: 'Development', icon: 'fab fa-java' }
+    };
+
     credlyContainer.innerHTML = `
-        <div class="credly-badges-grid">
-            ${badges.map(badge => `
-                <div class="credly-badge" data-category="${badge.category}">
-                    <div class="credly-badge-image">
-                        <img src="${badge.image}" alt="${badge.name}" loading="lazy">
-                    </div>
-                    <div class="credly-badge-content">
-                        <h4>${badge.name}</h4>
-                        <p class="credly-issuer">${badge.issuer}</p>
-                        <div class="credly-meta">
-                            <span class="credly-year">${badge.year}</span>
-                            ${badge.verified ? '<span class="credly-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+        <div class="credly-categories">
+            ${Object.entries(groupedBadges).map(([category, categoryBadges]) => {
+                if (categoryBadges.length === 0) return '';
+                const config = categoryConfig[category];
+                return `
+                    <div class="credly-category">
+                        <h3><i class="${config.icon}"></i> ${config.title}</h3>
+                        <div class="credly-badges-grid">
+                            ${categoryBadges.map(badge => `
+                                <div class="credly-badge" data-category="${badge.category}">
+                                    <div class="credly-badge-image">
+                                        <img src="${badge.image}" alt="${badge.name}" loading="lazy">
+                                    </div>
+                                    <div class="credly-badge-content">
+                                        <h4>${badge.name}</h4>
+                                        <p class="credly-issuer">${badge.issuer}</p>
+                                        <div class="credly-meta">
+                                            <span class="credly-year">${badge.year}</span>
+                                            ${badge.verified ? '<span class="credly-verified"><i class="fas fa-check-circle"></i> Verified</span>' : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                </div>
-            `).join('')}
+                `;
+            }).join('')}
         </div>
         <div class="credly-disclaimer">
             <p><i class="fas fa-info-circle"></i> All badges are verified on Credly. Click on any badge or visit my complete <a href="https://www.credly.com/users/impawangupta/badges" target="_blank">Credly profile</a> for verification</p>
@@ -393,7 +427,7 @@ function animateCounters() {
             if (entry.isIntersecting) {
                 const target = entry.target;
                 const targetValue = target.textContent;
-                
+
                 // Handle monetary values properly
                 if (targetValue.includes('$') && targetValue.includes('M')) {
                     // For values like "$1M+", extract the numeric part
@@ -404,7 +438,7 @@ function animateCounters() {
                         return;
                     }
                 }
-                
+
                 const isMonetary = targetValue.includes('$');
                 const numericValue = parseFloat(targetValue.replace(/[$M+]/g, ''));
 
@@ -461,7 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load GitHub data (profile only)
     fetchGitHubData();
-    
+
     // Load Credly badges
     fetchCredlyBadges();
 });
